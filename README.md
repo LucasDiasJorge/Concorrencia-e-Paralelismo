@@ -49,3 +49,10 @@ Dados de uso de threads em buscas lineares:
 | 16  | 0,209s  |
 
 Vale a pena ressaltar que são apenas tempos medios, e a criação excessiva de threads pode ter um impacto negativo no desempenho do sistema como um todo, pois cada thread usa recursos do sistema, como memória e CPU. No meu caso (Ryzen 7 2700 e 16gb de ram com Ubuntu 22.04).
+
+## OpenMP lib (in progress)
+
+https://curc.readthedocs.io/en/latest/programming/OpenMP-C.html
+
+g++ parallel_search.cpp -o parallel -fopenmp
+
