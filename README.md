@@ -14,7 +14,8 @@ Estudos em Concorrência e Paralelismo na linguagem C e desenvolvimento de algor
   - [Mutex Synchronization](https://www.youtube.com/watch?v=GXXE42bkqQk&ab_channel=BrianFraser)
   - [Livro "Algoritmos - Teoria e Prática"](https://www.amazon.com.br/Algoritmos-Teoria-Pr%C3%A1tica-Thomas-Cormen/dp/8535236996/ref=asc_df_8535236996/?tag=googleshopp00-20&linkCode=df0&hvadid=379707181411&hvpos=&hvnetw=g&hvrand=6640580099952446125&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9074284&hvtargid=pla-1002925180312&psc=1)
   - [Mutex](https://www.geeksforgeeks.org/mutex-lock-for-linux-thread-synchronization/)
-
+  - [doc](https://stackoverflow.com/questions/7235934/pthreads-high-memory-usage)
+  - [doc](https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-pthread-attr-setstacksize-set-stacksize-attribute-object)
 
 
 
