@@ -3,11 +3,13 @@
 #include <pthread.h>
 #include <time.h>
 
-#define NUM_THREADS 16
-#define ARRAY_SIZE 1410065408
+#include <stdint.h>
+
+#define NUM_THREADS 8
+#define ARRAY_SIZE_DEFAULT 1000000
 #define ELEMENT_TO_FIND 1981202369
 
-int array[ARRAY_SIZE];
+int *array = NULL;
 
 struct thread_data {
     int thread_id;
@@ -46,16 +48,28 @@ int main() {
     long t;
     struct thread_data td[NUM_THREADS];
 
-    printf("Array initializing at %ld\n",time(NULL));
+    printf("Array initializing at %ld\n", (long)time(NULL));
+
+    int array_size = ARRAY_SIZE_DEFAULT;
+    if (argc > 1) {
+        long v = atol(argv[1]);
+        if (v > 0) array_size = (int)v;
+    }
+
+    array = (int *)malloc(sizeof(int) * (size_t)array_size);
+    if (!array) {
+        fprintf(stderr, "Falha ao alocar array de tamanho %d\n", array_size);
+        return 1;
+    }
 
     // Inicializa o array de números aleatórios
-    for (int i = 0; i < ARRAY_SIZE; i++) {
+    for (int i = 0; i < array_size; i++) {
         array[i] = rand() % 1000000000;
     }
 
-    array[ARRAY_SIZE - 1] = 1981202369;
+    array[array_size - 1] = ELEMENT_TO_FIND;
 
-    printf("Array initialized at %ld\n",time(NULL));
+    printf("Array initialized at %ld (size=%d)\n", (long)time(NULL), array_size);
 
     // Inicializa as variáveis compartilhadas entre as threads
     int result = -1;
@@ -63,23 +77,24 @@ int main() {
     int done = 0;
 
     // Cria as threads
-    int step = ARRAY_SIZE / NUM_THREADS;
+    int step = array_size / NUM_THREADS;
     for (t = 0; t < NUM_THREADS; t++) {
-        td[t].thread_id = t;
-        td[t].start_index = t * step;
-        td[t].end_index = (t + 1) * step;
+        td[t].thread_id = (int)t;
+        td[t].start_index = (int)(t * step);
+        td[t].end_index = (int)((t + 1) * step);
         td[t].result = &result;
         td[t].mutex = &mutex;
         td[t].done = &done;
 
         if (t == NUM_THREADS - 1) {
-            td[t].end_index = ARRAY_SIZE;
+            td[t].end_index = array_size;
         }
 
         rc = pthread_create(&threads[t], NULL, linear_search, (void *) &td[t]);
         
         if (rc) {
             printf("ERROR; return code from pthread_create() is %d\n", rc);
+            free(array);
             exit(-1);
         }
     }
@@ -96,5 +111,6 @@ int main() {
         printf("Element not found\n");
     }
 
+    free(array);
     pthread_exit(NULL);
 }

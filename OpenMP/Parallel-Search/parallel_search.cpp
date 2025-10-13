@@ -3,16 +3,16 @@
 #include <omp.h>
 
 int parallelSearch(const std::vector<int>& vec, int target) {
-    int size = vec.size();
+    int size = static_cast<int>(vec.size());
     int foundIndex = -1;  // Índice onde o valor é encontrado (inicializado com -1)
 
-    #pragma omp parallel for
+    #pragma omp parallel for shared(foundIndex)
     for (int i = 0; i < size; i++) {
         if (vec[i] == target) {
             #pragma omp critical
             {
-                printf("Encontrado pelo processo: %d\n", omp_get_thread_num());
-                foundIndex = i;  // Armazena o índice encontrado (somente uma thread pode atualizar a variável)
+                std::cout << "Encontrado pela thread: " << omp_get_thread_num() << "\n";
+                if (foundIndex == -1) foundIndex = i;  // armazena o primeiro índice encontrado
             }
         }
     }
@@ -20,10 +20,11 @@ int parallelSearch(const std::vector<int>& vec, int target) {
     return foundIndex;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
     std::vector<int> vec = {5, 3, 8, 2, 9, 1, 4, 7, 6};
-
     int target = 6;
+    if (argc > 1) target = std::atoi(argv[1]);
+
     int result = parallelSearch(vec, target);
 
     if (result != -1) {

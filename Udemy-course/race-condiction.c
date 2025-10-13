@@ -1,3 +1,4 @@
+// Exemplo simples que demonstra race condition: incremento sem sincronização
 #include <stdio.h>
 #include <pthread.h>
 
@@ -10,7 +11,7 @@ void *thread_function(void *arg) {
     pthread_exit(NULL);
 }
 
-int main() {
+int main(void) {
     pthread_t thread1, thread2;
 
     pthread_create(&thread1, NULL, thread_function, NULL);
@@ -20,6 +21,9 @@ int main() {
     pthread_join(thread2, NULL);
 
     printf("Final value of shared_variable: %d\n", shared_variable);
+
+    // Observe que o valor final frequentemente será menor que 2000000 devido a race conditions.
+    // Compare com a versão em "mutex/main.c" que usa um mutex para proteger o incremento.
 
     return 0;
 }
