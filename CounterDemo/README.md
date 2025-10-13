@@ -1,32 +1,23 @@
-# Demonstração de Incremento Atômico vs Não-Atômico
+# DemonstraÃ§Ã£o de Incremento AtÃ´mico vs NÃ£o-AtÃ´mico
 
-Este projeto demonstra a diferença entre operações atômicas e não-atômicas em um banco de dados MySQL, com foco em incrementos de contadores (como estoque de produtos) em ambientes concorrentes.
+Este projeto demonstra a diferenÃ§a entre operaÃ§Ãµes atÃ´micas e nÃ£o-atÃ´micas aplicadas a um contador armazenado num banco de dados (MySQL). O foco Ã© evidenciar como incrementos podem ser perdidos quando a atualizaÃ§Ã£o nÃ£o Ã© atÃ´mica.
 
-## ?? O Problema das Race Conditions
+## Problema
 
-Quando múltiplas threads ou processos tentam incrementar um contador simultaneamente, podem ocorrer **race conditions** se a operação não for atômica. Isso resulta em:
+Quando mÃºltiplas threads/processos tentam atualizar o mesmo valor ao mesmo tempo sem atomicidade, podem ocorrer:
 
-- **Incrementos perdidos**: Várias operações leem o mesmo valor inicial antes de atualizá-lo
-- **Inconsistências de dados**: O valor final é menor que o esperado
-- **Bugs difíceis de reproduzir**: O problema só aparece em alta concorrência
+- Incrementos perdidos
+- InconsistÃªncias de dados
+- Bugs difÃ­ceis de reproduzir
 
-## ?? Solução: Incremento Atômico
+## Abordagens
 
-Comparamos duas abordagens:
+1. AtÃ´mica: executar um UPDATE que faÃ§a `stock_quantity = stock_quantity + 1` diretamente no banco.
+2. NÃ£o-atÃ´mica: ler o valor, incrementar em memÃ³ria e depois escrever o novo valor (read-modify-write em passos separados).
 
-1. **Atômica**: Incremento realizado diretamente no banco de dados com `UPDATE SET valor = valor + 1`
-2. **Não-Atômica**: Operação de leitura-modificação-escrita em passos separados
+## Exemplo (SQL) â€” criaÃ§Ã£o de tabela
 
-## ?? Resultados Esperados
-
-- **Método Atômico**: Todos os incrementos são contabilizados corretamente
-- **Método Não-Atômico**: Vários incrementos são "perdidos" devido a race conditions
-
-## ?? Scripts Principais
-
-### Setup do Banco
-
-```
+```sql
 CREATE DATABASE IF NOT EXISTS counter_demo;
 USE counter_demo;
 
@@ -36,104 +27,41 @@ CREATE TABLE IF NOT EXISTS products (
     stock_quantity INT NOT NULL DEFAULT 0
 );
 
--- Insere ou atualiza o produto de demonstração
 INSERT INTO products (id, name, stock_quantity) 
 VALUES (1, 'Produto Teste', 0)
 ON DUPLICATE KEY UPDATE name = 'Produto Teste';
 ```
 
-### Implementação Atômica
+## Trecho (pseudo-C#) â€” operaÃ§Ã£o atÃ´mica no banco
 
-```
-public async Task<int> IncrementStockAsync(int productId, int amount)
-{
-    const string sql = @"
-        UPDATE products 
-        SET stock_quantity = stock_quantity + @amount 
-        WHERE id = @productId;
-        
-        SELECT stock_quantity FROM products WHERE id = @productId;";
+```csharp
+const string sql = @"
+    UPDATE products
+    SET stock_quantity = stock_quantity + @amount
+    WHERE id = @productId;
 
-    using var connection = new MySqlConnection(_connectionString);
-    await connection.OpenAsync();
-    
-    using var command = new MySqlCommand(sql, connection);
-    command.Parameters.AddWithValue("@productId", productId);
-    command.Parameters.AddWithValue("@amount", amount);
-    
-    var result = await command.ExecuteScalarAsync();
-    return result != null ? Convert.ToInt32(result) : throw new InvalidOperationException("Produto não encontrado");
-}
+    SELECT stock_quantity FROM products WHERE id = @productId;";
+
+// Executa com parÃ¢metros e retorna o novo valor
 ```
 
-### Implementação Não-Atômica (Suscetível a Race Conditions)
+## Trecho (pseudo-C#) â€” operaÃ§Ã£o nÃ£o-atÃ´mica (suscetÃ­vel a race condition)
 
-```
-public async Task<int> IncrementStockAsync(int productId, int amount)
-{
-    // 1. Lê o valor atual
-    Product product = await GetProductAsync(productId);
-
-    // 2. Incrementa em memória
-    int newStock = product.StockQuantity + amount;
-
-    // Simula um pequeno atraso para aumentar a chance de race condition
-    await Task.Delay(10);
-
-    // 3. Atualiza o banco com o novo valor
-    const string updateSql = "UPDATE products SET stock_quantity = @newStock WHERE id = @productId";
-    
-    using var connection = new MySqlConnection(_connectionString);
-    await connection.OpenAsync();
-    
-    using var command = new MySqlCommand(updateSql, connection);
-    command.Parameters.AddWithValue("@productId", productId);
-    command.Parameters.AddWithValue("@newStock", newStock);
-    
-    await command.ExecuteNonQueryAsync();
-    
-    return newStock;
-}
+```csharp
+// 1) Ler
+Product p = await GetProductAsync(productId);
+// 2) Incrementar em memÃ³ria
+int newStock = p.StockQuantity + amount;
+// 3) Atualizar
+await UpdateProductStockAsync(productId, newStock);
 ```
 
-### Demonstração
+## InstruÃ§Ãµes
 
-```
-public async Task RunDemoAsync()
-{
-    // Testa implementação atômica
-    await _atomicRepository.ResetDemoAsync(_productId, _initialStock);
-    var atomicResult = await RunTestAsync(_atomicRepository);
-    
-    // Testa implementação não-atômica
-    await _nonAtomicRepository.ResetDemoAsync(_productId, _initialStock);
-    var nonAtomicResult = await RunTestAsync(_nonAtomicRepository);
-    
-    // Exibe resultados
-    Console.WriteLine($"Incrementos esperados: {_threadCount * _incrementsPerThread}");
-    Console.WriteLine($"Método ATÔMICO - Estoque final: {atomicResult.FinalStock}");
-    Console.WriteLine($"Método NÃO-ATÔMICO - Estoque final: {nonAtomicResult.FinalStock}");
-    
-    var atomicDiff = _threadCount * _incrementsPerThread - atomicResult.FinalStock;
-    var nonAtomicDiff = _threadCount * _incrementsPerThread - nonAtomicResult.FinalStock;
-    
-    Console.WriteLine($"Incrementos perdidos (ATÔMICO): {atomicDiff}");
-    Console.WriteLine($"Incrementos perdidos (NÃO-ATÔMICO): {nonAtomicDiff}");
-}
-```
+1. Execute o script SQL para criar o banco e a tabela.
+2. Ajuste a string de conexÃ£o no cÃ³digo C# (ou na aplicaÃ§Ã£o que for usar).
+3. Rode a demonstraÃ§Ã£o (project/console) e compare a versÃ£o atÃ´mica com a nÃ£o-atÃ´mica.
 
-## ?? Instruções para Execução
+## ConclusÃ£o
 
-1. Execute o script SQL para criar o banco e tabela
-2. Ajuste a string de conexão no `Program.cs`
-3. Execute o projeto
-4. Observe os resultados: a versão não-atômica terá incrementos perdidos
-
-## ?? Conclusões
-
-Este demo prova que para contadores em ambientes concorrentes:
-- **Operações atômicas no banco** são essenciais para manter a consistência
-- Abordagens **não-atômicas** inevitavelmente perderão atualizações
-- A diferença se torna mais evidente com **maior número de threads**
-
-As implicações para sistemas reais são sérias: contadores de visualizações, estoques, métricas e outros valores incrementais precisam utilizar operações atômicas para garantir precisão.
+OperaÃ§Ãµes atÃ´micas no banco de dados sÃ£o essenciais para garantir consistÃªncia em contadores concorrentes. A versÃ£o nÃ£o-atÃ´mica tende a perder atualizaÃ§Ãµes quando hÃ¡ alta concorrÃªncia.
