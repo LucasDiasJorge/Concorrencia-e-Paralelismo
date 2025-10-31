@@ -1,6 +1,38 @@
 # Concorrência e Paralelismo
 
-**Concorrência** e **paralelismo** são temas relacionados à **execução de processos** e **gerenciamento de tarefas em sistemas computacionais**, abordando como múltiplas operações podem ser executadas ao mesmo tempo. Ambos os conceitos são fundamentais em **ciências da computação** e na **teoria da computação**. Aqui estão algumas considerações sobre cada um deles:
+**Concorrência** e **paralelismo** são temas relacionados à **execução de processos** e **gerenciamento de tarefas em sistemas computacionais**, abordando como múltiplas operações podem ser executadas ao mesmo tempo. Ambos os conceitos são fundamentais em **ciências da computação** e na **teoria da computação**. 
+
+## 🆕 Novo: Projeto Race Condition em C#
+
+📂 **[RaceCondition-CSharp/](RaceCondition-CSharp/)** - Projeto educacional completo sobre race conditions e sincronização em C#
+
+### ✨ Features
+
+- ✅ **4 tipos de race conditions** com exemplos práticos e didáticos
+- ✅ **6 técnicas de sincronização** detalhadas:
+  - Lock (Monitor) - básico e eficaz
+  - Interlocked - operações atômicas de alta performance
+  - Semaphore - controle de acesso limitado
+  - ReaderWriterLockSlim - otimização para leituras
+  - ConcurrentCollections - coleções thread-safe nativas
+  - Monitor Wait/Pulse - sincronização condicional
+- ✅ **READMEs super explicativos** em português com teoria e prática
+- ✅ **Tipagem explícita** e comentários XML em todo o código
+- ✅ **Benchmarks de performance** com BenchmarkDotNet
+- ✅ **Casos de uso reais** (e-commerce, analytics, cache, rate limiting)
+
+### � Documentação
+
+- [📖 README Principal](RaceCondition-CSharp/README.md) - Visão geral completa
+- [🚀 Quick Start](RaceCondition-CSharp/QUICKSTART.md) - Comece em 5 minutos
+- [📊 Comparação de Performance](RaceCondition-CSharp/SUMMARY.md) - Tabela comparativa
+- [🌍 Exemplos Práticos](RaceCondition-CSharp/REAL-WORLD-EXAMPLES.md) - Cenários do mundo real
+
+---
+
+## Conceitos Fundamentais
+
+Aqui estão algumas considerações sobre cada um deles:
 
 ### Concorrência
 
