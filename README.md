@@ -1,4 +1,4 @@
-# Concorrência e Paralelismo
+# Concorrência, Paralelismo e Race Conductions 
 
 **Concorrência** e **paralelismo** são temas relacionados à **execução de processos** e **gerenciamento de tarefas em sistemas computacionais**, abordando como múltiplas operações podem ser executadas ao mesmo tempo. Ambos os conceitos são fundamentais em **ciências da computação** e na **teoria da computação**. 
 
