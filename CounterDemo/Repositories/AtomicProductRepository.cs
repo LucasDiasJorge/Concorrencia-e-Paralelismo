@@ -55,11 +55,10 @@ public class AtomicProductRepository : IProductRepository
         command.Parameters.AddWithValue("@productId", productId);
         command.Parameters.AddWithValue("@amount", amount);
 
-        
+        // Simula um pequeno atraso antes de executar o comando (assim a espera é observável)
+        await Task.Delay(10000);
+
         var result = await command.ExecuteScalarAsync();
-        
-        // Simula um pequeno atraso 
-        await Task.Delay(10);
 
         return result != null ? Convert.ToInt32(result) : throw new InvalidOperationException("Produto não encontrado");
     }
