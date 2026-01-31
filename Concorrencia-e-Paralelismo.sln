@@ -2,9 +2,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Atomic-Sequence", "Atomic-Sequence", "{E0ABD4AA-4934-952F-DD54-D2E04BFC1804}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-Sincronizacao", "02-Sincronizacao", "{E0ABD4AA-4934-952F-DD54-D2E04BFC1804}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicSequenceSafe", "Atomic-Sequence\CSharp\AtomicSequenceSafe.csproj", "{BEFE3F01-0FE0-8CBF-4E64-C22DF294E64A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicSequenceSafe", "02-Sincronizacao\Atomic-Operations\CSharp\AtomicSequenceSafe.csproj", "{BEFE3F01-0FE0-8CBF-4E64-C22DF294E64A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaceCondition", "02-Sincronizacao\RaceCondition-CSharp\RaceCondition.csproj", "{A1B2C3D4-5678-9012-3456-789012345678}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-Estruturas-Concorrentes", "03-Estruturas-Concorrentes", "{F1E2D3C4-5678-9012-3456-789012345679}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConcurrentQueueExample", "03-Estruturas-Concorrentes\ConcurrentQueue-CSharp\ConcurrentQueueExample.csproj", "{B2C3D4E5-6789-0123-4567-890123456789}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05-Estudos-de-Caso", "05-Estudos-de-Caso", "{C3D4E5F6-7890-1234-5678-901234567890}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CounterDemo", "05-Estudos-de-Caso\Database-Atomicity\CounterDemo.csproj", "{D4E5F6A7-8901-2345-6789-012345678901}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,12 +26,27 @@ Global
 		{BEFE3F01-0FE0-8CBF-4E64-C22DF294E64A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEFE3F01-0FE0-8CBF-4E64-C22DF294E64A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEFE3F01-0FE0-8CBF-4E64-C22DF294E64A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-5678-9012-3456-789012345678}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-5678-9012-3456-789012345678}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-5678-9012-3456-789012345678}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-5678-9012-3456-789012345678}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2C3D4E5-6789-0123-4567-890123456789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2C3D4E5-6789-0123-4567-890123456789}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2C3D4E5-6789-0123-4567-890123456789}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2C3D4E5-6789-0123-4567-890123456789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4E5F6A7-8901-2345-6789-012345678901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4E5F6A7-8901-2345-6789-012345678901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4E5F6A7-8901-2345-6789-012345678901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4E5F6A7-8901-2345-6789-012345678901}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BEFE3F01-0FE0-8CBF-4E64-C22DF294E64A} = {E0ABD4AA-4934-952F-DD54-D2E04BFC1804}
+		{A1B2C3D4-5678-9012-3456-789012345678} = {E0ABD4AA-4934-952F-DD54-D2E04BFC1804}
+		{B2C3D4E5-6789-0123-4567-890123456789} = {F1E2D3C4-5678-9012-3456-789012345679}
+		{D4E5F6A7-8901-2345-6789-012345678901} = {C3D4E5F6-7890-1234-5678-901234567890}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {140F06CF-8755-4FA4-A445-A2D19D3B69D4}

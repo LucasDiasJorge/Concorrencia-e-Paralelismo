@@ -1,68 +1,164 @@
-# Concorrência, Paralelismo e Race Conductions 
+# 🧵 Concorrência e Paralelismo
 
-**Concorrência** e **paralelismo** são temas relacionados à **execução de processos** e **gerenciamento de tarefas em sistemas computacionais**, abordando como múltiplas operações podem ser executadas ao mesmo tempo. Ambos os conceitos são fundamentais em **ciências da computação** e na **teoria da computação**. 
+> Um repositório de estudos práticos sobre programação concorrente e paralela, com implementações em C, C++, Rust e C#.
 
-## 🆕 Novo: Projeto Race Condition em C#
-
-📂 **[RaceCondition-CSharp/](RaceCondition-CSharp/)** - Projeto educacional completo sobre race conditions e sincronização em C#
-
-### ✨ Features
-
-- ✅ **4 tipos de race conditions** com exemplos práticos e didáticos
-- ✅ **6 técnicas de sincronização** detalhadas:
-  - Lock (Monitor) - básico e eficaz
-  - Interlocked - operações atômicas de alta performance
-  - Semaphore - controle de acesso limitado
-  - ReaderWriterLockSlim - otimização para leituras
-  - ConcurrentCollections - coleções thread-safe nativas
-  - Monitor Wait/Pulse - sincronização condicional
-- ✅ **READMEs super explicativos** em português com teoria e prática
-- ✅ **Tipagem explícita** e comentários XML em todo o código
-- ✅ **Benchmarks de performance** com BenchmarkDotNet
-- ✅ **Casos de uso reais** (e-commerce, analytics, cache, rate limiting)
-
-### � Documentação
-
-- [📖 README Principal](RaceCondition-CSharp/README.md) - Visão geral completa
-- [🚀 Quick Start](RaceCondition-CSharp/QUICKSTART.md) - Comece em 5 minutos
-- [📊 Comparação de Performance](RaceCondition-CSharp/SUMMARY.md) - Tabela comparativa
-- [🌍 Exemplos Práticos](RaceCondition-CSharp/REAL-WORLD-EXAMPLES.md) - Cenários do mundo real
+Este repositório documenta minha jornada aprendendo sobre concorrência e paralelismo — desde os conceitos mais básicos até aplicações em cenários reais. Cada pasta contém código funcional, explicações detalhadas e, quando possível, benchmarks.
 
 ---
 
-## Conceitos Fundamentais
+## 📁 Estrutura do Projeto
 
-Aqui estão algumas considerações sobre cada um deles:
+O repositório está organizado em uma progressão lógica de aprendizado:
 
-### Concorrência
+```
+📂 Concorrencia-e-Paralelismo/
+│
+├── 📘 01-Fundamentos/          # Conceitos básicos de threads
+│   ├── Conceitos-em-C/         # Exemplos em C puro (pthreads)
+│   ├── Conceitos-em-Rust/      # Mesmos conceitos em Rust
+│   ├── Pthreads-Course/        # Exercícios do curso de pthreads
+│   └── ASYNC-VS-MULTITHREADING.md
+│
+├── 🔒 02-Sincronizacao/        # Problemas e soluções de sync
+│   ├── RaceCondition-CSharp/   # Projeto completo sobre race conditions
+│   └── Atomic-Operations/      # Operações atômicas (C++ e C#)
+│
+├── 📦 03-Estruturas-Concorrentes/  # Data structures thread-safe
+│   └── ConcurrentQueue-CSharp/     # Producer-Consumer pattern
+│
+├── ⚡ 04-Paralelismo/          # Performance com múltiplos cores
+│   ├── Divide-and-Conquer/     # Busca paralela com benchmarks
+│   └── OpenMP/                 # Paralelização declarativa
+│
+├── 🌍 05-Estudos-de-Caso/      # Aplicações do mundo real
+│   └── Database-Atomicity/     # Atomicidade em banco de dados
+│
+├── 🎨 06-Concurrency-Patterns/ # Design Patterns de concorrência
+│   ├── Lock/                   # Exclusão mútua básica
+│   ├── Monitor/                # Lock + condições de espera
+│   ├── Semaphore/              # Controle de acesso limitado
+│   ├── ThreadPool/             # Reutilização de threads
+│   ├── ProducerConsumer/       # Fila de trabalho
+│   ├── Reactor/                # Event demultiplexing
+│   ├── Barrier/                # Sincronização de grupo
+│   └── DoubleCheckedLocking/   # Lazy init thread-safe
+│
+├── 📚 LIBRARY.md               # Curadoria de livros, artigos e cursos
+└── 📖 README.md                # Este arquivo
+```
 
-1. **Definição**: Concorrência refere-se à capacidade de um sistema executar múltiplas tarefas ou processos ao mesmo tempo, mas não necessariamente simultaneamente. Pode envolver a alternância entre diferentes tarefas que compartilham recursos, como tempo de CPU ou acesso a dados.
+---
 
-2. **Características**:
-    - **Interleaving**: As tarefas podem ser intercaladas, onde o sistema muda de uma tarefa para outra durante a execução.
-    - **Multithreading**: Em ambientes multithreaded, várias threads podem ser gerenciadas, permitindo que tarefas diferentes sejam executadas de forma concorrente.
-    - **Problemas de Sincronização**: A concorrência muitas vezes exige mecanismos de sincronização para gerenciar o acesso a recursos compartilhados, evitando condições de corrida e inconsistências de dados.
+## 🎯 Por onde começar?
 
-3. **Exemplo**: Um servidor web que atende a várias requisições simultaneamente, utilizando threads ou processos diferentes para lidar com cada requisição enquanto continua a aceitar novas.
+### Se você é iniciante:
+1. Comece por [01-Fundamentos/](01-Fundamentos/) — entenda threads e a diferença entre concorrência e paralelismo
+2. Leia [LIBRARY.md](LIBRARY.md) para referências de estudo complementar
 
-### Paralelismo
+### Se você já conhece o básico:
+1. Vá direto para [02-Sincronizacao/RaceCondition-CSharp/](02-Sincronizacao/RaceCondition-CSharp/) — projeto mais completo do repositório
+2. Explore as [operações atômicas](02-Sincronizacao/Atomic-Operations/) para entender o hardware
 
-1. **Definição**: Paralelismo, por outro lado, refere-se à execução simultânea de múltiplas tarefas ou processos em múltiplos núcleos ou CPUs. Aqui, as tarefas realmente ocorrem ao mesmo tempo, não apenas alternando entre elas.
+### Se quer ver paralelismo na prática:
+1. [04-Paralelismo/Divide-and-Conquer/](04-Paralelismo/Divide-and-Conquer/) tem benchmarks interessantes
+2. [04-Paralelismo/OpenMP/](04-Paralelismo/OpenMP/) mostra como paralelizar com poucas linhas
 
-2. **Características**:
-    - **Execução Simultânea**: As tarefas são realmente executadas em paralelo, utilizando múltiplos recursos de hardware.
-    - **Divisão de Trabalho**: O problema é frequentemente dividido em partes menores que podem ser processadas simultaneamente, como em algoritmos de divide and conquer.
-    - **Desempenho**: O paralelismo pode oferecer ganhos de desempenho significativos para operações computacionais intensivas, como processamento de grandes volumes de dados ou cálculos científicos.
+---
 
-3. **Exemplo**: Um programa que processa uma grande matriz em paralelo, utilizando várias threads que operam em diferentes partes da matriz ao mesmo tempo.
+## 💡 Conceitos Fundamentais
 
-### Relação com Ciência da Computação
+### Concorrência vs Paralelismo
 
-- **Modelos de Computação**: A concorrência e o paralelismo são conceitos fundamentais em modelos de computação, como máquinas de Turing, automatos e modelos de computação distribuída.
-- **Algoritmos e Estruturas de Dados**: A teoria da computação investiga algoritmos que aproveitam tanto a concorrência quanto o paralelismo para resolver problemas de forma eficiente.
-- **Sistemas Operacionais**: A forma como os sistemas operacionais gerenciam processos e threads, incluindo escalonamento, sincronização e comunicação entre processos, é central para entender a concorrência e o paralelismo.
-- **Desenvolvimento de Software**: Na prática, os desenvolvedores precisam considerar a concorrência e o paralelismo ao projetar software para garantir eficiência e desempenho, especialmente em aplicações que exigem alta disponibilidade e escalabilidade.
+| | Concorrência | Paralelismo |
+|---|---|---|
+| **O que é** | Lidar com várias coisas ao mesmo tempo | Fazer várias coisas ao mesmo tempo |
+| **Execução** | Pode ser intercalada (1 core) | Simultânea (múltiplos cores) |
+| **Foco** | Estrutura do programa | Performance |
+| **Exemplo** | Servidor web atendendo requisições | Renderização de vídeo |
 
-### Resumo
+> "Concorrência é sobre lidar com muitas coisas ao mesmo tempo. Paralelismo é sobre fazer muitas coisas ao mesmo tempo." — Rob Pike
 
-Em resumo, **concorrência** e **paralelismo** são conceitos fundamentais que lidam com a execução de múltiplas tarefas em sistemas computacionais, abordando diferentes aspectos da eficiência e utilização de recursos. Esses temas são essenciais para entender o desempenho de sistemas e o desenvolvimento de aplicações em um mundo cada vez mais orientado à computação em múltiplos núcleos e ambientes distribuídos.
+### Os problemas que surgem
+
+Quando múltiplas threads acessam dados compartilhados, surgem problemas como:
+
+- **Race Conditions** — resultado depende da ordem de execução
+- **Deadlocks** — threads bloqueadas esperando uma pela outra
+- **Starvation** — thread nunca consegue executar
+- **Livelock** — threads mudam de estado mas não progridem
+
+### As soluções
+
+- **Mutex/Lock** — exclusão mútua
+- **Semáforos** — controle de acesso limitado
+- **Operações Atômicas** — instruções indivisíveis
+- **Estruturas Thread-Safe** — abstrações prontas
+
+---
+
+## 🛠️ Tecnologias utilizadas
+
+| Linguagem | Uso no projeto |
+|-----------|----------------|
+| **C** | Pthreads, exemplos de baixo nível |
+| **C++** | OpenMP, std::atomic, std::thread |
+| **Rust** | Concorrência com ownership |
+| **C#** | ConcurrentCollections, async/await, Interlocked |
+
+---
+
+## 📊 Highlights
+
+### Benchmark de Busca Paralela
+Do projeto [Divide-and-Conquer](04-Paralelismo/Divide-and-Conquer/):
+
+| Threads | Tempo | Speedup |
+|---------|-------|---------|
+| 1 | 4.335s | 1x |
+| 4 | 1.258s | 3.4x |
+| 8 | 0.851s | 5.1x |
+| 16 | 0.209s | 20.7x |
+
+### Projeto Destaque: Race Conditions em C#
+O projeto [RaceCondition-CSharp](02-Sincronizacao/RaceCondition-CSharp/) inclui:
+- ✅ 4 tipos de race conditions demonstradas
+- ✅ 6 técnicas de sincronização comparadas
+- ✅ Benchmarks de performance
+- ✅ Cenários do mundo real
+
+---
+
+## 📚 Recursos de Estudo
+
+Veja [LIBRARY.md](LIBRARY.md) para uma curadoria completa de:
+- 📖 Livros recomendados
+- 📄 Artigos acadêmicos clássicos
+- 🎥 Cursos e vídeos
+- 🔗 Blogs e documentação
+
+---
+
+## 🚀 Como usar este repositório
+
+```bash
+# Clone o repositório
+git clone https://github.com/LucasDiasJorge/Concorrencia-e-Paralelismo.git
+
+# Navegue para um projeto específico
+cd Concorrencia-e-Paralelismo/02-Sincronizacao/RaceCondition-CSharp
+
+# Siga as instruções do README local
+dotnet run
+```
+
+Cada subpasta tem seu próprio README com instruções de compilação e execução.
+
+---
+
+## 📝 Notas pessoais
+
+Este repositório é um trabalho em progresso. Conforme avanço nos estudos, novos exemplos e projetos são adicionados. Se você encontrar algum erro ou tiver sugestões, fique à vontade para abrir uma issue ou PR.
+
+---
+
+*Última atualização: Janeiro 2026*
