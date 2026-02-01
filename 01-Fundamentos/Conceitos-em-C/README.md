@@ -21,5 +21,3 @@ Execução:
 ./concurrent
 ./parallel
 ```
-
-Se estiver no Windows e usar Visual Studio, abra o projeto ou compile com `cl` no Developer PowerShell.
