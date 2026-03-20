@@ -16,8 +16,8 @@ class Program
         try
         {
             // Cria as instâncias dos repositories
-            var atomicRepository = new AtomicProductRepository(connectionString);
-            var nonAtomicRepository = new NonAtomicProductRepository(connectionString);
+            AtomicProductRepository atomicRepository = new AtomicProductRepository(connectionString);
+            NonAtomicProductRepository nonAtomicRepository = new NonAtomicProductRepository(connectionString);
 
             // Verifica se o produto existe
             try
@@ -51,7 +51,7 @@ class Program
             }
 
             // Cria e executa a demonstração
-            var demo = new StockConcurrencyDemo(
+            StockConcurrencyDemo demo = new StockConcurrencyDemo(
                 atomicRepository,
                 nonAtomicRepository,
                 productId,
