@@ -45,13 +45,13 @@ public class StockConcurrencyDemo
         Console.WriteLine("Testando método ATÔMICO...");
         Console.WriteLine("----------------------------------------------------------");
         await _atomicRepository.ResetDemoAsync(_productId, _initialStock);
-        var atomicResult = await RunTestAsync(_atomicRepository, "ATÔMICO");
+        TestResult atomicResult = await RunTestAsync(_atomicRepository, "ATÔMICO");
 
         Console.WriteLine("\n----------------------------------------------------------");
         Console.WriteLine("Testando método NÃO-ATÔMICO...");
         Console.WriteLine("----------------------------------------------------------");
         await _nonAtomicRepository.ResetDemoAsync(_productId, _initialStock);
-        var nonAtomicResult = await RunTestAsync(_nonAtomicRepository, "NÃO-ATÔMICO");
+        TestResult nonAtomicResult = await RunTestAsync(_nonAtomicRepository, "NÃO-ATÔMICO");
 
         // Exibe resultados comparativos
         Console.WriteLine("\n==========================================================");
@@ -65,7 +65,7 @@ public class StockConcurrencyDemo
         Console.WriteLine($"Método ATÔMICO:");
         Console.WriteLine($"  - Estoque final: {atomicResult.FinalStock}");
         Console.WriteLine($"  - Tempo de execução: {atomicResult.ElapsedTime.TotalSeconds:F2}s");
-        var atomicDiff = expectedFinal - atomicResult.FinalStock;
+        int atomicDiff = expectedFinal - atomicResult.FinalStock;
         Console.WriteLine($"  - Incrementos perdidos: {atomicDiff}");
         Console.WriteLine($"  - Taxa de sucesso: {(1 - (double)atomicDiff / (_threadCount * _incrementsPerThread)) * 100:F2}%");
         Console.WriteLine();
@@ -73,7 +73,7 @@ public class StockConcurrencyDemo
         Console.WriteLine($"Método NÃO-ATÔMICO:");
         Console.WriteLine($"  - Estoque final: {nonAtomicResult.FinalStock}");
         Console.WriteLine($"  - Tempo de execução: {nonAtomicResult.ElapsedTime.TotalSeconds:F2}s");
-        var nonAtomicDiff = expectedFinal - nonAtomicResult.FinalStock;
+        int nonAtomicDiff = expectedFinal - nonAtomicResult.FinalStock;
         Console.WriteLine($"  - Incrementos perdidos: {nonAtomicDiff}");
         Console.WriteLine($"  - Taxa de sucesso: {(1 - (double)nonAtomicDiff / (_threadCount * _incrementsPerThread)) * 100:F2}%");
         Console.WriteLine();
@@ -105,9 +105,9 @@ public class StockConcurrencyDemo
 
     private async Task<TestResult> RunTestAsync(IProductRepository repository, string methodName)
     {
-        var stopwatch = Stopwatch.StartNew();
+        Stopwatch stopwatch = Stopwatch.StartNew();
 
-        var tasks = new List<Task>();
+        List<Task> tasks = new List<Task>();
         for (int i = 0; i < _threadCount; i++)
         {
             tasks.Add(Task.Run(async () =>
@@ -122,7 +122,7 @@ public class StockConcurrencyDemo
         await Task.WhenAll(tasks);
         stopwatch.Stop();
 
-        var product = await repository.GetProductAsync(_productId);
+        Product product = await repository.GetProductAsync(_productId);
 
         Console.WriteLine($"Concluído! Estoque final: {product.StockQuantity} | Tempo: {stopwatch.Elapsed.TotalSeconds:F2}s");
 
