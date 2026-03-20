@@ -176,8 +176,8 @@ public static class BenchmarkRunner
 
         if (response?.ToLower() == "s")
         {
-            var summary1 = BenchmarkDotNet.Running.BenchmarkRunner.Run<SynchronizationBenchmarks>();
-            var summary2 = BenchmarkDotNet.Running.BenchmarkRunner.Run<CacheBenchmarks>();
+            BenchmarkDotNet.Reports.Summary summary1 = BenchmarkDotNet.Running.BenchmarkRunner.Run<SynchronizationBenchmarks>();
+            BenchmarkDotNet.Reports.Summary summary2 = BenchmarkDotNet.Running.BenchmarkRunner.Run<CacheBenchmarks>();
         }
         else
         {
