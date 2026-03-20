@@ -28,7 +28,7 @@ class Program
 
     static async Task RunConcurrentQueueExample()
     {
-        var queue = new ConcurrentQueue<int>();
+        ConcurrentQueue<int> queue = new ConcurrentQueue<int>();
 
         const int totalItems = 100;
         const int producers = 4;
@@ -103,7 +103,7 @@ class Program
     {
         Console.WriteLine("BlockingCollection<T> + ConcurrentQueue<T> example\n");
 
-        using var blocking = new BlockingCollection<int>(new ConcurrentQueue<int>(), boundedCapacity: 50);
+        using BlockingCollection<int> blocking = new BlockingCollection<int>(new ConcurrentQueue<int>(), boundedCapacity: 50);
 
         const int totalItems = 100;
         const int producers = 3;
@@ -135,7 +135,7 @@ class Program
             int cid = c;
             cons[c] = Task.Run(() =>
             {
-                foreach (var item in blocking.GetConsumingEnumerable())
+                foreach (int item in blocking.GetConsumingEnumerable())
                 {
                     Console.WriteLine($"    [Consumer {cid}] Took {item}");
                     Thread.Sleep(30);
